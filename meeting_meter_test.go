@@ -16,8 +16,10 @@ func TestCalculateMinuteCost(t *testing.T) {
 		"Drew":  60,
 	}
 
+	meter := meeting_meter.New(participants)
+
 	want := 4
-	got := meeting_meter.CalculateMinuteCost(participants)
+	got := meter.CalculateMinuteCost(participants)
 
 	if want != got {
 		t.Errorf("want %v != got %v", want, got)
