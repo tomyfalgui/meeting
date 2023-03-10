@@ -56,7 +56,7 @@ func TestCalculateMinuteCost(t *testing.T) {
 		JoinTime:   0,
 	})
 
-	want := 2
+	want := 2.
 	got := meter.CalculateMinuteCost()
 
 	if want != got {

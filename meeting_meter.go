@@ -6,8 +6,7 @@ type Participant struct {
 	JoinTime   int // exact second participant joined
 }
 type meeting struct {
-	// In cents
-	accruedCost  int
+	accruedCost  float64
 	participants []Participant
 }
 
@@ -25,10 +24,14 @@ func (m meeting) Participants() []Participant {
 	return m.participants
 }
 
-func (m meeting) CalculateMinuteCost() int {
-	totalMinuteCost := 0
+func (p Participant) GetSecondCost() float64 {
+	return float64(p.HourlyRate/60) / 60
+}
+
+func (m meeting) CalculateMinuteCost() float64 {
+	totalMinuteCost := 0.
 	for _, p := range m.participants {
-		minuteCost := p.HourlyRate / 60
+		minuteCost := p.GetSecondCost() * 60
 		totalMinuteCost += minuteCost
 	}
 
