@@ -1,5 +1,10 @@
 package meeting_meter
 
+import (
+	"fmt"
+	"time"
+)
+
 type Participant struct {
 	Name       string
 	HourlyRate int
@@ -8,6 +13,7 @@ type Participant struct {
 type meeting struct {
 	accruedCost  float64
 	participants []Participant
+	elapsedTime  int
 }
 
 func New() meeting {
@@ -22,6 +28,18 @@ func (m *meeting) AddParticipant(p Participant) {
 
 func (m meeting) Participants() []Participant {
 	return m.participants
+}
+
+func (m *meeting) StartMeeting() {
+	ticker := time.NewTicker(1 * time.Second)
+	go func() {
+		for {
+			select {
+			case t := <-ticker.C:
+				fmt.Println("tick", t)
+			}
+		}
+	}()
 }
 
 func (m meeting) CalculateMinuteCost() float64 {
