@@ -2,6 +2,8 @@ package meeting_meter
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 	"time"
 )
 
@@ -32,14 +34,25 @@ func (m meeting) Participants() []Participant {
 
 func (m *meeting) StartMeeting() {
 	ticker := time.NewTicker(1 * time.Second)
-	go func() {
-		for {
-			select {
-			case t := <-ticker.C:
-				fmt.Println("tick", t)
-			}
-		}
-	}()
+	for range ticker.C {
+		m.elapsedTime += 1
+		clearScreen()
+		m.UpdateMeetingCost()
+		m.DisplayElapsedTime()
+		m.DisplayMeetingCost()
+	}
+}
+
+func (m *meeting) UpdateMeetingCost() {
+	m.accruedCost += (m.CalculateMinuteCost() / 60)
+}
+
+func (m meeting) DisplayMeetingCost() {
+	fmt.Printf("Total Cost: $%.2f", m.accruedCost)
+}
+
+func (m meeting) DisplayElapsedTime() {
+	fmt.Printf("Elapsed Time: %s\n", secondsToTime(m.elapsedTime))
 }
 
 func (m meeting) CalculateMinuteCost() float64 {
@@ -53,5 +66,19 @@ func (m meeting) CalculateMinuteCost() float64 {
 }
 
 func (p Participant) GetSecondCost() float64 {
-	return float64(p.HourlyRate/60) / 60
+	return (float64(p.HourlyRate/60) / 60)
+}
+
+func clearScreen() {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
+
+func secondsToTime(seconds int) string {
+	hours := seconds / 3600
+	seconds = seconds - (hours * 3600)
+	minutes := seconds / 60
+	seconds = seconds - (minutes * 60)
+	return fmt.Sprintf("%02d:%02d:%02d", hours, minutes, seconds)
 }
