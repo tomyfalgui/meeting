@@ -38,9 +38,18 @@ func (m *meeting) StartMeeting() {
 		m.elapsedTime += 1
 		clearScreen()
 		m.UpdateMeetingCost()
+		m.DisplayParticipantCost()
 		m.DisplayElapsedTime()
 		m.DisplayMeetingCost()
 	}
+}
+
+func (m meeting) DisplayParticipantCost() {
+	fmt.Print("Participant Cost\n")
+	for _, p := range m.participants {
+		fmt.Printf("%s - $%.2f\n", p.Name, p.GetSecondCost()*float64(m.elapsedTime))
+	}
+	fmt.Println()
 }
 
 func (m *meeting) UpdateMeetingCost() {
