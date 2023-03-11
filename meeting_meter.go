@@ -24,10 +24,6 @@ func (m meeting) Participants() []Participant {
 	return m.participants
 }
 
-func (p Participant) GetSecondCost() float64 {
-	return float64(p.HourlyRate/60) / 60
-}
-
 func (m meeting) CalculateMinuteCost() float64 {
 	totalMinuteCost := 0.
 	for _, p := range m.participants {
@@ -36,4 +32,8 @@ func (m meeting) CalculateMinuteCost() float64 {
 	}
 
 	return totalMinuteCost
+}
+
+func (p Participant) GetSecondCost() float64 {
+	return float64(p.HourlyRate/60) / 60
 }
