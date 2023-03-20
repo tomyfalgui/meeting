@@ -1,28 +1,28 @@
-package meeting_meter_test
+package meeting_test
 
 import (
-	"meeting_meter"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/tomyfalgui/meeting"
 )
 
 func TestAddParticipant(t *testing.T) {
 	t.Parallel()
 
-	meter := meeting_meter.New()
-	meter.AddParticipant(meeting_meter.Participant{
+	meter := meeting.NewMeter()
+	meter.AddParticipant(meeting.Participant{
 		Name:       "John",
 		HourlyRate: 60,
 		JoinTime:   0,
 	})
-	meter.AddParticipant(meeting_meter.Participant{
+	meter.AddParticipant(meeting.Participant{
 		Name:       "Alice",
 		HourlyRate: 60,
 		JoinTime:   0,
 	})
 
-	want := []meeting_meter.Participant{
+	want := []meeting.Participant{
 		{
 			Name:       "John",
 			HourlyRate: 60,
@@ -44,19 +44,19 @@ func TestAddParticipant(t *testing.T) {
 func TestCalculateMinuteCost(t *testing.T) {
 	t.Parallel()
 
-	meter := meeting_meter.New()
-	meter.AddParticipant(meeting_meter.Participant{
+	meter := meeting.NewMeter()
+	meter.AddParticipant(meeting.Participant{
 		Name:       "John",
 		HourlyRate: 60,
 		JoinTime:   0,
 	})
-	meter.AddParticipant(meeting_meter.Participant{
+	meter.AddParticipant(meeting.Participant{
 		Name:       "Alice",
 		HourlyRate: 60,
 		JoinTime:   0,
 	})
 
-	want := 2.
+	want := 2
 	got := meter.CalculateMinuteCost()
 
 	if want != got {

@@ -1,13 +1,13 @@
 package main
 
 import (
-	mm "meeting_meter"
+	"github.com/tomyfalgui/meeting"
 )
 
 func main() {
-	meter := mm.New()
-	meter.AddParticipant(mm.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
-	meter.AddParticipant(mm.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
-	meter.AddParticipant(mm.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
+	meter := meeting.NewMeter()
+	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
+	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
+	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
 	meter.StartMeeting()
 }
