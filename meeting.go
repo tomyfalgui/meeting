@@ -10,7 +10,7 @@ import (
 
 type meeting struct {
 	Participants []int // hourly rate in cents
-	ElaspedTime  int
+	ElaspedTime  time.Duration
 	Output       io.Writer
 }
 
@@ -43,7 +43,7 @@ func (m *meeting) StartMeter() {
 }
 
 func (m meeting) CurrentCost() int {
-	fractionalTime := 3600 / m.ElaspedTime
+	fractionalTime := 3600 / int(m.ElaspedTime)
 	totalCost := 0
 	for _, p := range m.Participants {
 		totalCost += (p / fractionalTime)

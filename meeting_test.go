@@ -65,3 +65,15 @@ func TestGetCurrentCost(t *testing.T) {
 		t.Fatalf("want %v != got %v", want, got)
 	}
 }
+
+func TestPrintShouldFailWhenTimeIsNotUpdated(t *testing.T) {
+	t.Parallel()
+}
+
+/**
+
+Could there be a bug in the code such that calling StartMeter doesn't cause the time to increase? If so, what kind of test would fail if the bug were present?
+
+it would fail if: I would compare the outputs of the Print() statement with an expected output after 5 seconds
+— since the Print() statement is reliant on the ElapsedTime
+*/
