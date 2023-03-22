@@ -2,6 +2,7 @@ package meeting
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"time"
@@ -9,16 +10,20 @@ import (
 
 type meeting struct {
 	Participants []int // hourly rate in cents
-	AccruedCost  int
 	ElaspedTime  int
 	Output       io.Writer
 }
 
 type option func(*meeting) error
 
-func NewMeter(opts ...option) (meeting, error) {
+func NewMeter(participants []int, opts ...option) (meeting, error) {
+	if len(participants) == 0 {
+		return meeting{}, errors.New("Participants list can't be empty")
+	}
+
 	m := meeting{
-		Output: os.Stdout,
+		Output:       os.Stdout,
+		Participants: participants,
 	}
 
 	for _, opt := range opts {
@@ -30,16 +35,26 @@ func NewMeter(opts ...option) (meeting, error) {
 	return m, nil
 }
 
-func (m meeting) StartMeter() {
+func (m *meeting) StartMeter() {
 	for range time.NewTicker(time.Second).C {
+		m.ElaspedTime++
+		m.Print()
 	}
 }
 
-func (m meeting) GetSecondCost() int {
-	return 0
+func (m meeting) CurrentCost() int {
+	fractionalTime := 3600 / m.ElaspedTime
+	totalCost := 0
+	for _, p := range m.Participants {
+		totalCost += (p / fractionalTime)
+	}
+	return totalCost
 }
 
-func Print() {
+func (m *meeting) Print() {
+	fmt.Fprintf(m.Output, "Elapsed Seconds: %d\n", m.ElaspedTime)
+	fmt.Fprintf(m.Output, "Total Cost: $%.2f\n", float64(m.CurrentCost())/100)
+	fmt.Fprintf(m.Output, "\n")
 }
 
 func WithOutput(output io.Writer) option {
@@ -48,16 +63,6 @@ func WithOutput(output io.Writer) option {
 			return errors.New("nil output writer")
 		}
 		m.Output = output
-		return nil
-	}
-}
-
-func WithParticipants(participants []int) option {
-	return func(m *meeting) error {
-		if participants == nil {
-			return errors.New("nil participant list")
-		}
-		m.Participants = participants
 		return nil
 	}
 }

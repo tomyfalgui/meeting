@@ -1,13 +1,20 @@
 package main
 
 import (
-	"github.com/tomyfalgui/meeting"
+	"log"
+
+	meeting "github.com/tomyfalgui/meeting_meter"
 )
 
 func main() {
-	meter := meeting.NewMeter()
-	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
-	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
-	meter.AddParticipant(meeting.Participant{Name: "Joe", HourlyRate: 60, JoinTime: 0})
-	meter.StartMeeting()
+	participants := []int{
+		10000,
+		3000,
+		5000,
+	}
+	meter, err := meeting.NewMeter(participants)
+	if err != nil {
+		log.Fatal(err)
+	}
+	meter.StartMeter()
 }
