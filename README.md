@@ -16,3 +16,14 @@ if there are four participants,
 As the clock ticks away,
 the Meeting Meter will show how much has been spent so far,
 encouraging people to make the best use of each other’s time.
+
+## Installation
+
+```bash
+go install github.com/tomyfalgui/meeting_meter@latest
+```
+
+## Usage
+```bash
+meeting_meter
+```
