@@ -2,8 +2,6 @@ package main
 
 import (
 	"log"
-
-	meeting "github.com/tomyfalgui/meeting_meter"
 )
 
 func main() {
@@ -12,7 +10,7 @@ func main() {
 		3000,
 		5000,
 	}
-	meter, err := meeting.NewMeter(participants)
+	meter, err := NewMeter(participants)
 	if err != nil {
 		log.Fatal(err)
 	}

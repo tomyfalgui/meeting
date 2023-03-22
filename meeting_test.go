@@ -1,10 +1,8 @@
-package meeting_test
+package main
 
 import (
 	"bytes"
 	"testing"
-
-	meeting "github.com/tomyfalgui/meeting_meter"
 )
 
 func TestNewMeterCreation(t *testing.T) {
@@ -13,7 +11,7 @@ func TestNewMeterCreation(t *testing.T) {
 	participants := []int{
 		10000,
 	}
-	_, err := meeting.NewMeter(participants)
+	_, err := NewMeter(participants)
 	if err != nil {
 		t.Fatalf("meeting creation can't fail")
 	}
@@ -23,7 +21,7 @@ func TestNewMeterCreationWithEmptyParticpantList(t *testing.T) {
 	t.Parallel()
 
 	participants := []int{}
-	_, err := meeting.NewMeter(participants)
+	_, err := NewMeter(participants)
 	if err == nil {
 		t.Fatalf("NewMeter() must throw an error with empty list")
 	}
@@ -38,8 +36,8 @@ func TestMeterWithOutput(t *testing.T) {
 		10000,
 	}
 
-	_, err := meeting.NewMeter(participants,
-		meeting.WithOutput(output),
+	_, err := NewMeter(participants,
+		WithOutput(output),
 	)
 	if err != nil {
 		t.Fatalf("output is an invalid io.Writer")
@@ -54,7 +52,7 @@ func TestGetCurrentCost(t *testing.T) {
 		10000,
 	}
 
-	m, err := meeting.NewMeter(participants)
+	m, err := NewMeter(participants)
 	if err != nil {
 		t.Fatalf("meeting instantiation should not fail")
 	}

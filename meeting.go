@@ -1,4 +1,4 @@
-package meeting
+package main
 
 import (
 	"errors"
