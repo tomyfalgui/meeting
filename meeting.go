@@ -1,8 +1,14 @@
 package meeting
 
-import "errors"
+import (
+	"errors"
+	"time"
+)
 
-type meeting struct{}
+type meeting struct {
+	Participants []int
+	ElapsedTime  time.Duration
+}
 
 func NewMeter(participants []int) (meeting, error) {
 	if len(participants) == 0 {
