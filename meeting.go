@@ -16,3 +16,12 @@ func NewMeter(participants []int) (meeting, error) {
 	}
 	return meeting{Participants: participants}, nil
 }
+
+func (m meeting) CurrentCost() int {
+	totalCost := 0
+	secondCost := 3600 / m.ElapsedTime
+	for _, c := range m.Participants {
+		totalCost += (c / int(secondCost))
+	}
+	return totalCost
+}
