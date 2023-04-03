@@ -29,6 +29,25 @@ func TestParticipantListIsStored(t *testing.T) {
 	}
 }
 
+func TestGetElapsedTime(t *testing.T) {
+	t.Parallel()
+
+	participants := []int{10000}
+	m, err := meeting.NewMeter(participants)
+	if err != nil {
+		t.Errorf("didnt expect NewMeter to fail")
+	}
+	fakeTerminal := &bytes.Buffer{}
+	m.Output = fakeTerminal
+	want := 5
+	time.Sleep(5 * time.Second)
+	got := m.ElapsedTime()
+
+	if want != got {
+		t.Errorf("want %v != got %v", want, got)
+	}
+}
+
 func TestGetTotalCost(t *testing.T) {
 	t.Parallel()
 
