@@ -31,8 +31,8 @@ func main() {
 		elapsedTime := meter.ElapsedTime()
 		totalCost := meter.TotalCost()
 
-		fmt.Printf("Elapsed Time: %d seconds\n", elapsedTime)
-		fmt.Printf("Total Cost: $%d\n\n", totalCost)
+		fmt.Printf(timeFormat(elapsedTime))
+		fmt.Printf("Total Cost: $%.2f\n\n", float64(totalCost)/100)
 	}
 }
 
@@ -46,4 +46,21 @@ func helpText() string {
 	helpText.WriteString("Example:\n")
 	helpText.WriteString("\tmeeting_meter 30000")
 	return helpText.String()
+}
+
+func timeFormat(seconds int) string {
+	var sb strings.Builder
+	hours := seconds / 3600
+
+	if hours >= 1 {
+		fmt.Fprintf(&sb, "Hours: %d ", hours)
+	}
+	seconds = seconds - (hours * 3600)
+	minutes := seconds / 60
+	if minutes >= 1 {
+		fmt.Fprintf(&sb, "Minutes: %d ", minutes)
+	}
+	seconds = seconds - (minutes * 60)
+	fmt.Fprintf(&sb, "Seconds: %d \n", seconds)
+	return sb.String()
 }
