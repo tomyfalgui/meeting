@@ -27,10 +27,7 @@ func NewMeter(participants []int) (meeting, error) {
 }
 
 func (m meeting) TotalCost() int {
-	now := time.Now()
-	diff := now.Sub(m.StartTime)
-
-	elapsedSeconds := int(diff.Seconds())
+	elapsedSeconds := m.ElapsedTime()
 	if elapsedSeconds == 0 {
 		return 0
 	}
@@ -42,4 +39,12 @@ func (m meeting) TotalCost() int {
 	}
 
 	return totalCost
+}
+
+func (m meeting) ElapsedTime() int {
+	now := time.Now()
+	diff := now.Sub(m.StartTime)
+	elapsedSeconds := int(diff.Seconds())
+
+	return elapsedSeconds
 }
