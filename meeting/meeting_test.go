@@ -2,10 +2,13 @@ package meeting_test
 
 import (
 	"bytes"
+	"math"
+	"os"
 	"testing"
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/rogpeppe/go-internal/testscript"
 	"github.com/tomyfalgui/meeting_meter/meeting"
 )
 
@@ -39,11 +42,14 @@ func TestGetElapsedTime(t *testing.T) {
 	}
 	fakeTerminal := &bytes.Buffer{}
 	m.Output = fakeTerminal
-	want := 5
-	time.Sleep(5 * time.Second)
+	want := time.Second
+	time.Sleep(time.Second)
 	got := m.ElapsedTime()
 
-	if want != got {
+	// consider time accuracy
+	epsilon := 1.
+
+	if math.Abs(want.Seconds()-got.Seconds()) > epsilon {
 		t.Errorf("want %v != got %v", want, got)
 	}
 }
@@ -65,4 +71,18 @@ func TestGetTotalCost(t *testing.T) {
 	if want != got {
 		t.Errorf("want %v != got %v", want, got)
 	}
+}
+
+func TestMain(m *testing.M) {
+	os.Exit(testscript.RunMain(m, map[string]func() int{
+		"meeting_meter": meeting.Main,
+	}))
+}
+
+func Test(t *testing.T) {
+	t.Parallel()
+
+	testscript.Run(t, testscript.Params{
+		Dir: "testdata",
+	})
 }
