@@ -5,4 +5,8 @@ stdout 'valid time duration'
 ! exec meeting_meter mxs
 stdout 'valid number'
 stdout 'usage'
-
+stdout 'meeting_meter'
+! exec meeting_meter mxs
+stdout 'valid number'
+stdout 'usage'
+stdout 'meeting_meter'

@@ -20,7 +20,7 @@ encouraging people to make the best use of each other’s time.
 ## Installation
 
 ```bash
-go install github.com/tomyfalgui/meeting_meter@latest
+go install github.com/tomyfalgui/meeting_meter/cmd/meeting@latest
 ```
 
 ## Usage

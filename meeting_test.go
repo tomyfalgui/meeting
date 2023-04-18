@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/rogpeppe/go-internal/testscript"
-	"github.com/tomyfalgui/meeting_meter/meeting"
+	meeting "github.com/tomyfalgui/meeting_meter"
 )
 
 func TestNewMeterFailsWithEmptyParticipantList(t *testing.T) {
