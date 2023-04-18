@@ -2,6 +2,7 @@ package meeting
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -55,20 +56,17 @@ func Main() int {
 		fmt.Println(helpText())
 		return 1
 	}
+	fset := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	printInterval := fset.Duration("d", time.Second, "frequency of printing")
+	fset.Parse(os.Args[2:])
 
-	totalCost := os.Args[1]
-	printInterval := "1s"
-	if len(os.Args) > 2 {
-		printInterval = os.Args[2]
-	}
+	// printIntervalConv, err := time.ParseDuration(*printInterval)
+	// if err != nil {
+	// 	fmt.Println("Please provide a valid time duration")
+	// 	return 1
+	// }
 
-	printIntervalConv, err := time.ParseDuration(printInterval)
-	if err != nil {
-		fmt.Println("Please provide a valid time duration")
-		return 1
-	}
-
-	conv, err := strconv.Atoi(totalCost)
+	conv, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		fmt.Println("Please provid a valid number")
 		fmt.Println(helpText())
@@ -78,7 +76,7 @@ func Main() int {
 	participants := []int{conv}
 	meter, _ := NewMeter(participants)
 
-	for range time.NewTicker(printIntervalConv).C {
+	for range time.NewTicker(*printInterval).C {
 		elapsedTime := meter.ElapsedTime()
 		totalCost := meter.TotalCost()
 
