@@ -56,15 +56,10 @@ func Main() int {
 		fmt.Println(helpText())
 		return 1
 	}
-	fset := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
-	printInterval := fset.Duration("d", time.Second, "frequency of printing")
-	fset.Parse(os.Args[2:])
+	printInterval := flag.Duration("d", time.Second, "frequency of printing")
+	flag.Parse()
 
-	// printIntervalConv, err := time.ParseDuration(*printInterval)
-	// if err != nil {
-	// 	fmt.Println("Please provide a valid time duration")
-	// 	return 1
-	// }
+	fmt.Println(flag.Args())
 
 	conv, err := strconv.Atoi(os.Args[1])
 	if err != nil {
