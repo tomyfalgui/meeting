@@ -52,23 +52,43 @@ func (m meeting) ElapsedTime() time.Duration {
 }
 
 func Main() int {
-	if len(os.Args) < 2 {
-		fmt.Println(helpText())
+	fs := flag.NewFlagSet("meeting_meter", flag.ExitOnError)
+	printInterval := fs.Duration("f", time.Second, "frequency of printing")
+
+	var sb strings.Builder
+	fs.Usage = func() {
+		sb.WriteString("Usage: meeting_meter [OPTION] [VALUES]\n\n")
+		sb.WriteString("meeting_meter prints the total cost of a meeting\n\n")
+		sb.WriteString("Options:\n")
+		fs.VisitAll(func(f *flag.Flag) {
+			fmt.Fprintf(&sb, "  -%s %s\n", f.Name, f.Usage)
+		})
+		sb.WriteString("\n")
+		sb.WriteString("Arguments:\n")
+		sb.WriteString("  VALUES        Hourly Cost in Cents\n\n")
+		sb.WriteString("Examples:\n")
+		sb.WriteString("  Print every 5 seconds\n")
+		sb.WriteString("   meeting_meter -f 5s 10000\n")
+		fmt.Print(sb.String())
+	}
+	fs.Parse(os.Args[1:])
+
+	if fs.NArg() == 0 {
+		fs.Usage()
 		return 1
 	}
-	printInterval := flag.Duration("d", time.Second, "frequency of printing")
-	flag.Parse()
 
-	fmt.Println(flag.Args())
+	participants := []int{}
+	for i := 0; i < fs.NArg(); i++ {
 
-	conv, err := strconv.Atoi(os.Args[1])
-	if err != nil {
-		fmt.Println("Please provid a valid number")
-		fmt.Println(helpText())
-		return 1
+		conv, err := strconv.Atoi(fs.Arg(i))
+		if err != nil {
+			fmt.Printf("%v: invalid number. Please provid a valid number\n", fs.Arg(i))
+			return 1
+		}
+		participants = append(participants, conv)
 	}
 
-	participants := []int{conv}
 	meter, _ := NewMeter(participants)
 
 	for range time.NewTicker(*printInterval).C {
@@ -80,16 +100,4 @@ func Main() int {
 	}
 
 	return 0
-}
-
-func helpText() string {
-	var helpText strings.Builder
-	helpText.WriteString("meeting_meter - commandline meeting cost tracker\n\n")
-	helpText.WriteString("usage: meeting_meter <hourly_cost_in_cents>\n\n")
-	helpText.WriteString(
-		"meeting_meter helps you track the total money wasted in a meeting\n\n",
-	)
-	helpText.WriteString("Example:\n")
-	helpText.WriteString("\tmeeting_meter 30000")
-	return helpText.String()
 }

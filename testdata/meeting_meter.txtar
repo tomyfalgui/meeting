@@ -1,7 +1,7 @@
 ! exec meeting_meter
-stdout 'usage'
-! exec meeting_meter 30000 -d 2xsae
-stdout 'valid time duration'
+stdout 'Usage'
+! exec meeting_meter -f 2xase 1000SJK
+stderr 'invalid'
 ! exec meeting_meter mxs
 stdout 'valid number'
-stdout 'usage'
+stdout 'Usage'
