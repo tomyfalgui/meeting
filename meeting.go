@@ -17,6 +17,9 @@ type meeting struct {
 	Output       io.Writer
 }
 
+// NewMeter takes a list of integers (participants) and
+// returns a initialized [meeting] struct. It returns an error if
+// the participant list is empty.
 func NewMeter(participants []int) (meeting, error) {
 	if len(participants) == 0 {
 		return meeting{}, errors.New("Participant list is empty")
@@ -30,6 +33,8 @@ func NewMeter(participants []int) (meeting, error) {
 	return m, nil
 }
 
+// TotalCost returns the total cost of the ongoing meeting in cents
+// which based on the elapsed time of the meeting.
 func (m meeting) TotalCost() int {
 	elapsedTime := m.ElapsedTime()
 	if elapsedTime.Seconds() < 1 {
@@ -45,12 +50,16 @@ func (m meeting) TotalCost() int {
 	return totalCost
 }
 
+// ElapsedTime returns the total duration of a meeting
+// since it started.
 func (m meeting) ElapsedTime() time.Duration {
 	diff := time.Since(m.StartTime)
 
 	return diff
 }
 
+// Main runs the command-line interface for meeting.
+// The exit status for the binary is 1 if there are invalid options or arguments
 func Main() int {
 	fs := flag.NewFlagSet("meeting_meter", flag.ExitOnError)
 	printInterval := fs.Duration("f", time.Second, "frequency of printing")
