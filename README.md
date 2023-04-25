@@ -1,3 +1,6 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/tomyfalgui/meeting_meter)](https://goreportcard.com/report/github.com/tomyfalgui/meeting_meter)
+[![Go Reference](https://pkg.go.dev/badge/github.com/tomyfalgui/meeting_meter.svg)](https://pkg.go.dev/github.com/tomyfalgui/meeting_meter)
+
 # “The Meeting Meter”.
 
 Meetings are expensive, and we can work out exactly how
