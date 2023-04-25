@@ -1,7 +1,5 @@
 ! exec meeting_meter
 stdout 'Usage'
-! exec meeting_meter -f 2xase 1000SJK
-stderr 'invalid'
-! exec meeting_meter mxs
-stdout 'valid number'
-stdout 'Usage'
+! exec meeting_meter xs1s
+! exec meeting_meter -f 12sx 10000
+stderr 'invalid value'

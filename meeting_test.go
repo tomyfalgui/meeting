@@ -79,6 +79,26 @@ func TestMain(m *testing.M) {
 	}))
 }
 
+func TestGetTotalCostWhenElapsedTimeIsZeroShouldReturnZero(t *testing.T) {
+	t.Parallel()
+
+	participants := []int{10000}
+	m, err := meeting.NewMeter(participants)
+	if err != nil {
+		t.Errorf("didnt expect NewMeter to fail")
+	}
+	fakeTerminal := &bytes.Buffer{}
+	m.Output = fakeTerminal
+	want := 0
+	time.Sleep(0 * time.Second)
+	got := m.TotalCost()
+
+	if want != got {
+		t.Errorf("want %v != got %v", want, got)
+	}
+
+}
+
 func Test(t *testing.T) {
 	t.Parallel()
 

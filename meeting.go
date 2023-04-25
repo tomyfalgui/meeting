@@ -31,12 +31,12 @@ func NewMeter(participants []int) (meeting, error) {
 }
 
 func (m meeting) TotalCost() int {
-	elapsedSeconds := m.ElapsedTime()
-	if elapsedSeconds == 0 {
+	elapsedTime := m.ElapsedTime()
+	if elapsedTime.Seconds() < 1 {
 		return 0
 	}
 
-	fractionalTime := int(3600 / elapsedSeconds.Seconds())
+	fractionalTime := int(3600 / elapsedTime.Seconds())
 	totalCost := 0
 	for _, p := range m.Participants {
 		totalCost += p / fractionalTime
@@ -83,7 +83,7 @@ func Main() int {
 
 		conv, err := strconv.Atoi(fs.Arg(i))
 		if err != nil {
-			fmt.Printf("%v: invalid number. Please provid a valid number\n", fs.Arg(i))
+			fmt.Printf("invalid number: %v. Please provid a valid number\n", fs.Arg(i))
 			return 1
 		}
 		participants = append(participants, conv)
