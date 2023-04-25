@@ -17,3 +17,12 @@ go install github.com/tomyfalgui/meeting_meter/cmd/meeting@latest
 meeting [OPTIONS] [ARGS]
 ```
 
+### Options
+
+```bash
+-f frequency of printing (time duration string)
+```
+
+### Arguments
+
+Arguments is a list of int which represent the hourly cost in cents of a meeting's participants.
