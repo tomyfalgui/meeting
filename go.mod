@@ -1,4 +1,4 @@
-module github.com/tomyfalgui/meeting_meter
+module github.com/tomyfalgui/meeting
 
 go 1.20
 

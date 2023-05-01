@@ -1,6 +1,6 @@
 package main
 
-import meeting "github.com/tomyfalgui/meeting_meter"
+import "github.com/tomyfalgui/meeting"
 
 func main() {
 	meeting.Main()

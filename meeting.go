@@ -7,7 +7,6 @@ import (
 	"io"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -64,21 +63,19 @@ func Main() int {
 	fs := flag.NewFlagSet("meeting_meter", flag.ExitOnError)
 	printInterval := fs.Duration("f", time.Second, "frequency of printing")
 
-	var sb strings.Builder
 	fs.Usage = func() {
-		sb.WriteString("Usage: meeting_meter [OPTION] [VALUES]\n\n")
-		sb.WriteString("meeting_meter prints the total cost of a meeting\n\n")
-		sb.WriteString("Options:\n")
+		fmt.Print("Usage: meeting_meter [OPTION] [VALUES]\n\n")
+		fmt.Print("meeting_meter prints the total cost of a meeting\n\n")
+		fmt.Print("Options:\n")
 		fs.VisitAll(func(f *flag.Flag) {
-			fmt.Fprintf(&sb, "  -%s %s\n", f.Name, f.Usage)
+			fmt.Printf("  -%s %s\n", f.Name, f.Usage)
 		})
-		sb.WriteString("\n")
-		sb.WriteString("Arguments:\n")
-		sb.WriteString("  VALUES        Hourly Cost in Cents\n\n")
-		sb.WriteString("Examples:\n")
-		sb.WriteString("  Print every 5 seconds\n")
-		sb.WriteString("   meeting_meter -f 5s 10000\n")
-		fmt.Print(sb.String())
+		fmt.Print("\n")
+		fmt.Print("Arguments:\n")
+		fmt.Print("  VALUES        Hourly Cost in Cents\n\n")
+		fmt.Print("Examples:\n")
+		fmt.Print("  Print every 5 seconds\n")
+		fmt.Print("   meeting_meter -f 5s 10000\n")
 	}
 	fs.Parse(os.Args[1:])
 
