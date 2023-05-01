@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/rogpeppe/go-internal/testscript"
-	meeting "github.com/tomyfalgui/meeting_meter"
+	"github.com/tomyfalgui/meeting"
 )
 
 func TestNewMeterFailsWithEmptyParticipantList(t *testing.T) {
@@ -54,7 +54,7 @@ func TestGetElapsedTime(t *testing.T) {
 	}
 }
 
-func TestGetTotalCost(t *testing.T) {
+func TestGetTotalCostOfMeetingAfterTimeElapsed(t *testing.T) {
 	t.Parallel()
 
 	participants := []int{10000}
@@ -64,8 +64,8 @@ func TestGetTotalCost(t *testing.T) {
 	}
 	fakeTerminal := &bytes.Buffer{}
 	m.Output = fakeTerminal
-	want := 13
-	time.Sleep(5 * time.Second)
+	want := 2
+	time.Sleep(1 * time.Second)
 	got := m.TotalCost()
 
 	if want != got {

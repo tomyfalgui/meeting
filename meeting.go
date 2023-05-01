@@ -84,9 +84,15 @@ func Main() int {
 		return 1
 	}
 
-	participants := []int{}
-	for i := 0; i < fs.NArg(); i++ {
+	if *printInterval < 0 {
+		fmt.Println("Interval must be a positive integer.")
+		fs.Usage()
+		return 1
 
+	}
+
+	participants := []int{}
+	for i := range fs.Args() {
 		conv, err := strconv.Atoi(fs.Arg(i))
 		if err != nil {
 			fmt.Printf("invalid number: %v. Please provid a valid number\n", fs.Arg(i))
@@ -95,7 +101,12 @@ func Main() int {
 		participants = append(participants, conv)
 	}
 
-	meter, _ := NewMeter(participants)
+	meter, err := NewMeter(participants)
+	if err != nil {
+		fmt.Println(err)
+		fs.Usage()
+		return 1
+	}
 
 	for range time.NewTicker(*printInterval).C {
 		elapsedTime := meter.ElapsedTime()
