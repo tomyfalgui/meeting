@@ -10,3 +10,6 @@ stderr 'invalid value'
 ! exec meeting -f -1s 10000
 stderr 'Interval'
 ! stdout .
+! exec meeting -f 1s
+stderr 'Participant list is empty'
+! stdout .

@@ -103,7 +103,7 @@ func Main() int {
 
 	meter, err := NewMeter(participants)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(os.Stderr, err)
 		fs.Usage()
 		return 1
 	}
