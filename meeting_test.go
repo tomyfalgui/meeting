@@ -22,7 +22,7 @@ func TestNewMeterFailsWithEmptyParticipantList(t *testing.T) {
 	}
 }
 
-func TestParticipantListIsStored(t *testing.T) {
+func TestParticipantListIsStoredCorrectly(t *testing.T) {
 	t.Parallel()
 
 	participants := []int{10000}
@@ -32,7 +32,7 @@ func TestParticipantListIsStored(t *testing.T) {
 	}
 }
 
-func TestGetElapsedTime(t *testing.T) {
+func TestGetElapsedTimeShouldReturnTheElapsedTimeAfterSleep(t *testing.T) {
 	t.Parallel()
 
 	participants := []int{10000}
@@ -54,7 +54,7 @@ func TestGetElapsedTime(t *testing.T) {
 	}
 }
 
-func TestGetTotalCostOfMeetingAfterTimeElapsed(t *testing.T) {
+func TestGetTotalCostWhenTimeElapsedIsPositiveShouldReturnCorrectPositiveCost(t *testing.T) {
 	t.Parallel()
 
 	participants := []int{10000}
@@ -71,12 +71,6 @@ func TestGetTotalCostOfMeetingAfterTimeElapsed(t *testing.T) {
 	if want != got {
 		t.Errorf("want %v != got %v", want, got)
 	}
-}
-
-func TestMain(m *testing.M) {
-	os.Exit(testscript.RunMain(m, map[string]func() int{
-		"meeting_meter": meeting.Main,
-	}))
 }
 
 func TestGetTotalCostWhenElapsedTimeIsZeroShouldReturnZero(t *testing.T) {
@@ -99,10 +93,16 @@ func TestGetTotalCostWhenElapsedTimeIsZeroShouldReturnZero(t *testing.T) {
 
 }
 
-func Test(t *testing.T) {
+func TestMainFunctionShouldReturnProperHelpTextAndError(t *testing.T) {
 	t.Parallel()
 
 	testscript.Run(t, testscript.Params{
 		Dir: "testdata",
 	})
+}
+
+func TestMain(m *testing.M) {
+	os.Exit(testscript.RunMain(m, map[string]func() int{
+		"meeting": meeting.Main,
+	}))
 }

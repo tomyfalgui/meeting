@@ -1,7 +1,7 @@
-! exec meeting_meter
+! exec meeting
 stdout 'Usage'
-! exec meeting_meter xs1s
-! exec meeting_meter -f 12sx 10000
+! exec meeting xs1s
+! exec meeting -f 12sx 10000
 stderr 'invalid value'
-! exec meeting_meter -f -1s 10000
+! exec meeting -f -1s 10000
 stdout 'Interval'

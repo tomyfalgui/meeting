@@ -79,7 +79,7 @@ func Main() int {
 	}
 	fs.Parse(os.Args[1:])
 
-	if fs.NArg() == 0 {
+	if fs.NArg() == 0 && fs.NFlag() == 0 {
 		fs.Usage()
 		return 1
 	}
