@@ -64,18 +64,18 @@ func Main() int {
 	printInterval := fs.Duration("f", time.Second, "frequency of printing")
 
 	fs.Usage = func() {
-		fmt.Print("Usage: meeting_meter [OPTION] [VALUES]\n\n")
-		fmt.Print("meeting_meter prints the total cost of a meeting\n\n")
-		fmt.Print("Options:\n")
+		fmt.Fprint(os.Stderr, "Usage: meeting_meter [OPTION] [VALUES]\n\n")
+		fmt.Fprint(os.Stderr, "meeting_meter prints the total cost of a meeting\n\n")
+		fmt.Fprint(os.Stderr, "Options:\n")
 		fs.VisitAll(func(f *flag.Flag) {
-			fmt.Printf("  -%s %s\n", f.Name, f.Usage)
+			fmt.Fprintf(os.Stderr, "  -%s %s\n", f.Name, f.Usage)
 		})
-		fmt.Print("\n")
-		fmt.Print("Arguments:\n")
-		fmt.Print("  VALUES        Hourly Cost in Cents\n\n")
-		fmt.Print("Examples:\n")
-		fmt.Print("  Print every 5 seconds\n")
-		fmt.Print("   meeting_meter -f 5s 10000\n")
+		fmt.Fprint(os.Stderr, "\n")
+		fmt.Fprint(os.Stderr, "Arguments:\n")
+		fmt.Fprint(os.Stderr, "  VALUES        Hourly Cost in Cents\n\n")
+		fmt.Fprint(os.Stderr, "Examples:\n")
+		fmt.Fprint(os.Stderr, "  Print every 5 seconds\n")
+		fmt.Fprint(os.Stderr, "   meeting_meter -f 5s 10000\n")
 	}
 	fs.Parse(os.Args[1:])
 
@@ -85,7 +85,7 @@ func Main() int {
 	}
 
 	if *printInterval < 0 {
-		fmt.Println("Interval must be a positive integer.")
+		fmt.Fprintln(os.Stderr, "Interval must be a positive integer.")
 		fs.Usage()
 		return 1
 
@@ -95,7 +95,7 @@ func Main() int {
 	for i := range fs.Args() {
 		conv, err := strconv.Atoi(fs.Arg(i))
 		if err != nil {
-			fmt.Printf("invalid number: %v. Please provid a valid number\n", fs.Arg(i))
+			fmt.Fprintf(os.Stderr, "invalid number: %v. Please provid a valid number\n", fs.Arg(i))
 			return 1
 		}
 		participants = append(participants, conv)

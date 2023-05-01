@@ -1,7 +1,12 @@
 ! exec meeting
-stdout 'Usage'
+stderr 'Usage'
+! stdout .
 ! exec meeting xs1s
+stderr 'invalid'
+! stdout .
 ! exec meeting -f 12sx 10000
 stderr 'invalid value'
+! stdout .
 ! exec meeting -f -1s 10000
-stdout 'Interval'
+stderr 'Interval'
+! stdout .
