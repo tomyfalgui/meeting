@@ -10,20 +10,22 @@ import (
 	"time"
 )
 
-type meeting struct {
+// Meeting struct holds the related data for
+// tracking the total cost and duration of a meeting.
+type Meeting struct {
 	Participants []int
 	StartTime    time.Time
 	Output       io.Writer
 }
 
 // NewMeter takes a list of integers (participants) and
-// returns a initialized [meeting] struct. It returns an error if
+// returns an initialized [Meeting] struct. It returns an error if
 // the participant list is empty.
-func NewMeter(participants []int) (meeting, error) {
+func NewMeter(participants []int) (Meeting, error) {
 	if len(participants) == 0 {
-		return meeting{}, errors.New("Participant list is empty")
+		return Meeting{}, errors.New("participant list is empty")
 	}
-	m := meeting{
+	m := Meeting{
 		Output:       os.Stdout,
 		Participants: participants,
 		StartTime:    time.Now(),
@@ -34,7 +36,7 @@ func NewMeter(participants []int) (meeting, error) {
 
 // TotalCost returns the total cost of the ongoing meeting in cents
 // which based on the elapsed time of the meeting.
-func (m meeting) TotalCost() int {
+func (m Meeting) TotalCost() int {
 	elapsedTime := m.ElapsedTime()
 	if elapsedTime.Seconds() < 1 {
 		return 0
@@ -51,7 +53,7 @@ func (m meeting) TotalCost() int {
 
 // ElapsedTime returns the total duration of a meeting
 // since it started.
-func (m meeting) ElapsedTime() time.Duration {
+func (m Meeting) ElapsedTime() time.Duration {
 	diff := time.Since(m.StartTime)
 
 	return diff
@@ -77,7 +79,10 @@ func Main() int {
 		fmt.Fprint(os.Stderr, "  Print every 5 seconds\n")
 		fmt.Fprint(os.Stderr, "   meeting_meter -f 5s 10000\n")
 	}
-	fs.Parse(os.Args[1:])
+	err := fs.Parse(os.Args[1:])
+	if err != nil {
+		return 0
+	}
 
 	if fs.NArg() == 0 && fs.NFlag() == 0 {
 		fs.Usage()
@@ -91,7 +96,7 @@ func Main() int {
 
 	}
 
-	participants := []int{}
+	var participants []int
 	for i := range fs.Args() {
 		conv, err := strconv.Atoi(fs.Arg(i))
 		if err != nil {
